@@ -1,25 +1,22 @@
-import { Vote } from "../core/vote"
+import { Vote } from "../core/vote";
+import { PgVoteRepo } from "../db/pg.repo";
 
+const repo = new PgVoteRepo();
 
-export const getServiceHealth = async () => {
-      const message = 'GET service is healthy'
-      return message
+export const getServiceHealth = async () => 'GET service is healthy';
+
+export async function getVotes(limit?: number): Promise<Vote[]> {
+  return repo.fetchVotes(limit);
 }
 
-export async function getVotes(): Promise<Vote[]> {
-      // Aquí iría la lógica para obtener los votos desde la base de datos
-      const votes: Vote[] = await fetchVotesFromDB();
-      return votes;
-// }
-//       const votes = [
-//             new Vote('1', 'Alice', 'US', '1', new Date()),
-//             new Vote('2', 'Bob', 'GB', '2', new Date())
-//       ]
-//       return votes
+export async function createVote(input: { name: string; countryCode: string; option: number; }): Promise<Vote> {
+  return repo.createVote({
+    name: input.name,
+    countryCode: input.countryCode,
+    option: input.option
+  } as Omit<Vote, 'id'|'createdAt'>);
 }
 
-
-
-function fetchVotesFromDB(): Vote[] | PromiseLike<Vote[]> {
-      throw new Error("Function not implemented.");
+export async function getStats(): Promise<Array<{ option: number; count: number }>> {
+  return repo.fetchStats();
 }

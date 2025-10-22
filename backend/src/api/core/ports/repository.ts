@@ -1,19 +1,33 @@
-import { Vote }  from "../../core/vote"
+import { Vote } from "../../core/vote";
 
 export interface VoteRepository {
-      fetchVotes(): Promise<Vote[]>;
-      createVote(vote: Vote): Promise<Vote>;
+  fetchVotes(limit?: number): Promise<Vote[]>;
+  createVote(vote: Omit<Vote, 'id'|'createdAt'>): Promise<Vote>;
+  fetchStats(): Promise<Array<{ option: number; count: number }>>;
 }
 
 export class InMemoryVoteRepository implements VoteRepository {
-      private votes: Vote[] = [];
+  private votes: Vote[] = [];
 
-      async fetchVotes(): Promise<Vote[]> {
-            return this.votes;
-      }
+  async fetchVotes(limit = 100): Promise<Vote[]> {
+    return this.votes.slice(0, limit);
+  }
 
-      async createVote(vote: Vote): Promise<Vote> {
-            this.votes.push(vote);
-            return vote;
-      }
+  async createVote(v: Omit<Vote, 'id'|'createdAt'>): Promise<Vote> {
+    const newVote = new Vote(
+      crypto.randomUUID(),
+      v.name,
+      v.countryCode,
+      v.option,
+      new Date()
+    );
+    this.votes.unshift(newVote);
+    return newVote;
+  }
+
+  async fetchStats(): Promise<Array<{ option: number; count: number }>> {
+    const map = new Map<number, number>();
+    for (const v of this.votes) map.set(v.option, (map.get(v.option) ?? 0) + 1);
+    return [...map.entries()].map(([option, count]) => ({ option, count })).sort((a,b)=>a.option-b.option);
+  }
 }

@@ -1,33 +1,15 @@
--- para gen_random_uuid()
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+-- backend/src/db/init.sql
+create extension if not exists "uuid-ossp";
 
--- 1) options primero
-CREATE TABLE IF NOT EXISTS public.options (
-  id           TEXT PRIMARY KEY,        -- ej: 'opt_1', 'opt_2', 'opt_3'
-  label        TEXT NOT NULL,           -- ej: 'Opción 1'
-  sort_order   INT NOT NULL DEFAULT 0,
-  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
+create table if not exists votes (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null check (length(name) between 1 and 80),
+  option smallint not null check (option in (1,2,3)),
+  country_code char(2) not null,
+  created_at timestamptz not null default now()
 );
 
-CREATE INDEX IF NOT EXISTS idx_options_sort_order ON public.options (sort_order);
-
-INSERT INTO public.options (id, label, sort_order) VALUES
-('opt_1', 'Opción 1', 1),
-('opt_2', 'Opción 2', 2),
-('opt_3', 'Opción 3', 3)
-ON CONFLICT (id) DO NOTHING;
-
--- 2) votes después (sin FK a countries)
-CREATE TABLE IF NOT EXISTS public.votes (
-  id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name           TEXT NOT NULL,
-  country_code   CHAR(2) NOT NULL,                 -- viene del front, sin FK
-  option_id      TEXT NOT NULL REFERENCES public.options(id),
-  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
--- índices básicos
-CREATE INDEX IF NOT EXISTS idx_votes_created_at ON public.votes (created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_votes_option     ON public.votes (option_id);
-CREATE INDEX IF NOT EXISTS idx_votes_country    ON public.votes (country_code);
+-- índices útiles
+create index if not exists idx_votes_created_at on votes (created_at desc);
+create index if not exists idx_votes_option on votes (option);
+create index if not exists idx_votes_country on votes (country_code);
