@@ -1,0 +1,59 @@
+<div class="grid" aria-label="Formulario de votación">
+<section class="card" *ngIf="!success()">
+<h2>Votá tu opción</h2>
+<p class="muted">Completá tu nombre, elegí una opción y tu país. Verás tu voto reflejado en vivo.</p>
+
+
+<div class="field">
+<label class="label" for="name">Nombre</label>
+<input id="name" class="input" type="text" [formControl]="form.controls.name" placeholder="Ej.: Ana Gómez"/>
+<div class="helper">Mostraremos tu nombre junto a tu voto.</div>
+<div class="error" *ngIf="form.controls.name.touched && form.controls.name.invalid">
+<ng-container *ngIf="form.controls.name.hasError('required')">El nombre es obligatorio.</ng-container>
+<ng-container *ngIf="form.controls.name.hasError('minlength')">Usá al menos 2 caracteres.</ng-container>
+</div>
+</div>
+
+
+<div class="field">
+<div class="label">Elegí una opción</div>
+<div class="options" role="group" aria-label="Opciones">
+<button type="button" class="pill" [attr.aria-pressed]="form.value.option===1" (click)="setOption(1)">Opción 1</button>
+<button type="button" class="pill" [attr.aria-pressed]="form.value.option===2" (click)="setOption(2)">Opción 2</button>
+<button type="button" class="pill" [attr.aria-pressed]="form.value.option===3" (click)="setOption(3)">Opción 3</button>
+</div>
+<div class="error" *ngIf="form.controls.option.touched && form.controls.option.invalid">Elegí una de las opciones.</div>
+</div>
+
+
+<div class="field">
+<label class="label" for="country">País</label>
+<select id="country" [formControl]="form.controls.countryCode">
+<option value="" disabled>Seleccioná tu país</option>
+<option *ngFor="let c of countries" [value]="c.code">{{ c.name }}</option>
+</select>
+<div class="helper">Mostraremos tu banderita junto a tu nombre.</div>
+<div class="error" *ngIf="form.controls.countryCode.touched && form.controls.countryCode.invalid">El país es obligatorio.</div>
+</div>
+
+
+<div style="display:flex; gap:12px; align-items:center;">
+<button class="button" (click)="submit()" [disabled]="submitting()">{{ submitting() ? 'Cargando…' : 'Enviar voto' }}</button>
+<span class="badge" *ngIf="form.value.countryCode">{{ flag(form.value.countryCode!) }} {{ form.value.countryCode }}</span>
+</div>
+</section>
+
+
+<section class="card" *ngIf="success()" aria-live="polite">
+<h2>¡Gracias por votar!</h2>
+<p>Tu voto quedó registrado. Podés ver el panel en vivo abajo.</p>
+<button class="button secondary" (click)="reset()">Votar otra vez</button>
+</section>
+
+
+<section class="card">
+<h3>Panel en vivo</h3>
+<p class="muted">Votos que van llegando, con nombres y banderitas.</p>
+<app-live-panel></app-live-panel>
+</section>
+</div>

@@ -1,0 +1,26 @@
+:root { --gap: 16px; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; }
+.container { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.app-header { display:flex; align-items:center; justify-content:space-between; padding:12px 24px; border-bottom:1px solid #eee; }
+.app-header .brand { font-size: 20px; margin:0; }
+.app-header nav a { margin-left: 12px; text-decoration:none; color:#333; padding:6px 10px; border-radius:8px; }
+.app-header nav a.active, .app-header nav a:hover { background:#f2f2f2; }
+.card { background:#fff; border:1px solid #eee; border-radius:16px; padding:16px; }
+.grid { display:grid; gap: var(--gap); }
+.grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.button { appearance:none; border:0; background:#111; color:#fff; padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:600; }
+.button[disabled] { opacity: .5; cursor: not-allowed; }
+.button.secondary { background:#444; }
+.input, select { width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:10px; }
+.label { display:block; font-weight:600; margin-bottom:6px; }
+.field { margin-bottom: 14px; }
+.error { color:#b00020; font-size: 13px; }
+.table { width:100%; border-collapse: collapse; }
+.table th, .table td { text-align:left; padding:8px 10px; border-bottom:1px solid #eee; }
+.badge { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid #e5e5e5; border-radius:999px; font-size: 13px; }
+.pill { padding:8px 12px; border:1px solid #ddd; border-radius:999px; cursor:pointer; user-select:none; }
+.pill[aria-pressed="true"] { background:#111; color:#fff; border-color:#111; }
+.helper { color:#666; font-size: 13px; }
+.muted { color:#666; }
+.center { text-align:center; }

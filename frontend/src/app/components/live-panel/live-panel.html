@@ -1,0 +1,21 @@
+<table class="table" aria-live="polite">
+<thead>
+<tr>
+<th>Votó por</th>
+<th>Nombre</th>
+<th>País</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let v of votes$ | async">
+<td>Opción {{ v.option }}</td>
+<td>{{ v.name }}</td>
+<td>
+<span class="badge">{{ flag(v.countryCode) }} {{ v.countryCode }}</span>
+</td>
+</tr>
+<tr *ngIf="(votes$ | async)?.length === 0">
+<td colspan="3" class="muted">Aún no hay votos. ¡Sé el primero!</td>
+</tr>
+</tbody>
+</table>

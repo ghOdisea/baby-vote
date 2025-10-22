@@ -1,0 +1,12 @@
+/* estilos específicos opcionales */
+.table {
+  th {
+    background-color: darken(rgb(147, 253, 191), 5%);
+    color: rgb(0, 0, 0);
+  }
+
+  .badge {
+    background-color: darken(rgb(147, 253, 191), 10%);
+    color: rgb(0, 0, 0);
+  }
+}
