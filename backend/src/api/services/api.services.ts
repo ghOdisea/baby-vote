@@ -23,26 +23,3 @@ export async function getVotes(): Promise<Vote[]> {
 function fetchVotesFromDB(): Vote[] | PromiseLike<Vote[]> {
       throw new Error("Function not implemented.");
 }
-// export const createMockData = async (data: any) => {
-//            const newMockData = {
-//                  newData: data,
-//                  createdAt: new Date()
-//            }
-//            return newMockData
-//      }
-
-//      export const patchMockData = async (data: any) => {
-//       const patchedMockData = {
-//             patchedData: data,
-//             updatedAt: new Date()
-//       }
-//       return patchedMockData
-// }
-
-// export const deleteMockData = async (data: any) => {
-//       const deletedMockData = {
-//             deletedData: data,
-//             deletedAt: new Date()
-//       }
-//       return deletedMockData
-// }

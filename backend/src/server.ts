@@ -7,6 +7,7 @@ import morgan from "morgan"
 import helmet from "helmet"
 import ApiRoutes from "./api/routes/api.routes"
 import errorHandler from "./api/middleware/errorHandler"
+import { sqlClient } from './api/db/config/dbClient'
 
 const app = express()
 
@@ -23,6 +24,11 @@ app.listen(
       PORT,
        () => {
             console.log(`Server running on port ${PORT} in ${NODE_ENV}`)
-            // await connectToDatabase()
+            try {
+                  sqlClient.connect()
+                  console.log("Connected to the database successfully")
+            } catch (error) {
+                  console.error("Error connecting to the database:", error)
+            }
       }
 )
