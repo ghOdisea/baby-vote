@@ -3,13 +3,7 @@ import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR, OK } from "../constants/ht
 import { getVotes, createVote, getStats } from "../services/api.services";
 import appAssert from "../utils/appAssert";
 import catchErrors from "../utils/catchErrors";
-
-// zod schema
-const VoteSchema = z.object({
-  name: z.string().min(1).max(80),
-  countryCode: z.string().length(2),   // ISO-2
-  option: z.number().int().min(1).max(3)
-});
+import { VoteSchema } from "./schemas/vote.schema";
 
 export const GetVotesHandler = catchErrors(async (req, res) => {
   const limit = req.query.limit ? Number(req.query.limit) : undefined;
@@ -19,21 +13,37 @@ export const GetVotesHandler = catchErrors(async (req, res) => {
 
 export const PostVotesHandler = catchErrors(async (req, res) => {
   const data = req.body;
-  appAssert(data, BAD_REQUEST, 'Data is required');
+  console.log("POST /api/votes body =>", data);
 
-  const parsed = await VoteSchema.safeParseAsync({
+  appAssert(data, BAD_REQUEST, "Data is required");
+
+  // Acepta country_code o countryCode; option o optionId (string/number)
+  const candidate = {
     name: data?.name,
-    countryCode: data?.countryCode,
-    option: data?.option ?? Number(data?.optionId) // compat: optionId (string) → option (number)
+    country_code: data?.country_code ?? data?.countryCode,
+    option: data?.option ?? data?.optionId
+  };
+
+  const parsed = VoteSchema.safeParse(candidate);
+
+  if (!parsed.success) {
+    // Log útil para depurar rápidamente
+    console.error("Zod issues:", parsed.error.issues);
+    appAssert(false, BAD_REQUEST, "Invalid payload"); // conserva tu flujo de errores
+  }
+
+  const payload = parsed.data; // { name, country_code, option }
+
+  const newVote = await createVote({
+    name: payload.name,
+    countryCode: payload.country_code, // tu servicio espera camelCase
+    option: payload.option
   });
 
-  appAssert(parsed.success, BAD_REQUEST, 'Invalid payload');
-
-  const newVote = await createVote(parsed.data);
-  appAssert(newVote, INTERNAL_SERVER_ERROR, 'Something went wrong...');
+  appAssert(newVote, INTERNAL_SERVER_ERROR, "Something went wrong...");
 
   res.status(CREATED).json({
-    message: 'Vote created successfully!',
+    message: "Vote created successfully!",
     vote: newVote.toDTO()
   });
 });

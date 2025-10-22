@@ -1,7 +1,20 @@
 export interface VoteDTO {
-  id?: string;            // asignado por el back
-  name: string;
-  option: 1 | 2 | 3;
-  countryCode: string;    // ISO-2, p.ej. "AR", "ES"
-  createdAt?: string;     // ISO
+id: string;
+name: string;
+option: string; // ← string ahora
+countryCode: string;
+createdAt: string;
 }
+
+
+export interface ApiVote {
+id: string;
+name: string;
+country_code: string;
+option: string; // ← string en la API
+created_at: string;
+}
+
+
+export interface ApiStatsRow { option: string; count: number; }
+export interface ApiStatsResponse { totals: ApiStatsRow[]; }

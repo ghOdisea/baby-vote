@@ -5,6 +5,7 @@ import { VotesService } from '../../core/votes.service';
 import { COUNTRIES } from '../../shared/data/countries';
 import { countryCodeToFlagEmoji } from '../../shared/utils/flag';
 import { LivePanelComponent } from '../../components/live-panel/live-panel';
+import { OPTIONS } from '../../shared/data/options';
 
 
 @Component({
@@ -27,17 +28,20 @@ public votes = inject(VotesService);
 
 form = this.fb.group({
 name: ['', [Validators.required, Validators.minLength(2)]],
-option: [null as 1|2|3|null, [Validators.required]],
+option: ['', [Validators.required]],
 countryCode: ['', [Validators.required]],
 });
 
-
 ngOnInit(): void {
-this.votes.connectRealtime(); // no hace nada en mock; listo para back real
+this.votes.pollVotes$.subscribe();
 }
 
+options = (OPTIONS as (string | { id: string | number; label: string })[]).map(o => {
+	if (typeof o === 'string') return { id: String(o), label: o };
+	return { id: String(o.id), label: o.label };
+});
 
-setOption(opt: 1|2|3) { this.form.patchValue({ option: opt }); }
+setOption(opt: string) { this.form.patchValue({ option: opt }); }
 
 
 submit() {

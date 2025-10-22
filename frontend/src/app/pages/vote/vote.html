@@ -17,11 +17,9 @@
 
 <div class="field">
 <div class="label">Elegí una opción</div>
-<div class="options" role="group" aria-label="Opciones">
-<button type="button" class="pill" [attr.aria-pressed]="form.value.option===1" (click)="setOption(1)">Opción 1</button>
-<button type="button" class="pill" [attr.aria-pressed]="form.value.option===2" (click)="setOption(2)">Opción 2</button>
-<button type="button" class="pill" [attr.aria-pressed]="form.value.option===3" (click)="setOption(3)">Opción 3</button>
-</div>
+		<div class="options" role="group" aria-label="Opciones">
+			<button type="button" class="pill" *ngFor="let o of options" [attr.aria-pressed]="form.value.option===o.id" (click)="setOption(o.id)">{{ o.label }}</button>
+		</div>
 <div class="error" *ngIf="form.controls.option.touched && form.controls.option.invalid">Elegí una de las opciones.</div>
 </div>
 

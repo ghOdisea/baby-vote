@@ -1,38 +1,20 @@
 <section class="card">
-<h2>Resultados de la votación</h2>
-<p class="muted">Cantidad de votos por opción y listado de votantes. Los resultados se actualizan en vivo.</p>
-<div class="grid cols-3">
-<div class="col">
-<h3>Opción 1</h3>
-<p class="muted">Total: {{ (totals$ | async)?.[1] || 0 }}</p>
-<ul>
-<li *ngFor="let v of (votes$ | async) | slice:0:9999; let i = index" [hidden]="v.option !== 1">
-{{ v.name }} — <span class="badge">{{ flag(v.countryCode) }} {{ v.countryCode }}</span>
-</li>
-<li class="muted" *ngIf="(totals$ | async)?.[1] === 0">Sin votos todavía.</li>
-</ul>
-</div>
-<div class="col">
-<h3>Opción 2</h3>
-<p class="muted">Total: {{ (totals$ | async)?.[2] || 0 }}</p>
-<ul>
-<li *ngFor="let v of (votes$ | async) | slice:0:9999" [hidden]="v.option !== 2">
-{{ v.name }} — <span class="badge">{{ flag(v.countryCode) }} {{ v.countryCode }}</span>
-</li>
-<li class="muted" *ngIf="(totals$ | async)?.[2] === 0">Sin votos todavía.</li>
-</ul>
-</div>
-<div class="col">
-<h3>Opción 3</h3>
-<p class="muted">Total: {{ (totals$ | async)?.[3] || 0 }}</p>
-<ul>
-<li *ngFor="let v of (votes$ | async) | slice:0:9999" [hidden]="v.option !== 3">
-{{ v.name }} — <span class="badge">{{ flag(v.countryCode) }} {{ v.countryCode }}</span>
-</li>
-<li class="muted" *ngIf="(totals$ | async)?.[3] === 0">Sin votos todavía.</li>
-</ul>
-</div>
-</div>
-<hr/>
-<p><strong>Votos totales:</strong> {{ (totals$ | async)?.total || 0 }}</p>
+	<h2>Resultados de la votación</h2>
+	<p class="muted">Cantidad de votos por opción y listado de votantes. Los resultados se actualizan en vivo.</p>
+
+	<div class="grid cols-3">
+		<div class="col" *ngFor="let opt of options">
+			<h3>{{ opt.label }}</h3>
+			<p class="muted">Total: {{ ((totals$ | async)?.totals?.[opt.id] || 0) }}</p>
+			<ul>
+			<li *ngFor="let v of (votes$ | async) | slice:0:9999" [hidden]="(v.option + '') !== (opt.id + '')">
+					{{ v.name }} — <span class="badge">{{ flag(v.countryCode) }} {{ v.countryCode }}</span>
+				</li>
+				<li class="muted" *ngIf="((totals$ | async)?.totals?.[opt.id] || 0) === 0">Sin votos todavía.</li>
+			</ul>
+		</div>
+	</div>
+
+	<hr/>
+	<p><strong>Votos totales:</strong> {{ (totals$ | async)?.total || 0 }}</p>
 </section>
