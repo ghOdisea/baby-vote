@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Results — Baby Shower Edition</title>
+<style>
+  /* ========== Theme (pastels) ========== */
+  :root{
+    --bg:#F8FAFC;               /* soft paper */
+    --text:#374151;             /* slate */
+    --muted:#6B7280;
+    --blue:#BDE0FE;             /* baby blue */
+    --pink:#FFC8DD;             /* baby pink */
+    --mint:#CDEAC0;             /* mint */
+    --peach:#FDE2E4;            /* peach */
+    --lav:#E7E5FF;              /* lavender */
+    --accent:#A3E4D7;           /* aqua mint accent */
+    --card:#FFFFFF;             /* white card */
+    --shadow:0 10px 30px rgba(31,41,55,.08);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:
+      radial-gradient(600px 300px at 80% -10%, #EAF6FF 0%, transparent 60%),
+      radial-gradient(500px 260px at 10% 110%, #FFF0F5 0%, transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font:16px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial;
+  }
+
+  .wrap{ max-width:980px; margin:28px auto; padding:20px }
+
+  /* ========== Bunting Banner (top garland) ========== */
+  .bunting{
+    height:48px; position:relative; overflow:visible; margin-bottom:6px;
+  }
+  .bunting::before{
+    content:""; position:absolute; left:0; right:0; top:10px; height:2px;
+    background: repeating-linear-gradient(90deg, #E5E7EB 0 12px, #D1D5DB 12px 24px);
+    border-radius:2px;
+  }
+  .flag{
+    position:absolute; top:12px; width:0; height:0; border-left:16px solid transparent; border-right:16px solid transparent;
+    transform-origin:top center; animation: sway 3s ease-in-out infinite;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,.08));
+  }
+  .flag:nth-child(1){ left:6%;  border-top:26px solid var(--pink);  animation-delay:.1s}
+  .flag:nth-child(2){ left:16%; border-top:26px solid var(--blue);  animation-delay:.2s}
+  .flag:nth-child(3){ left:26%; border-top:26px solid var(--mint);  animation-delay:.3s}
+  .flag:nth-child(4){ left:36%; border-top:26px solid var(--peach); animation-delay:.15s}
+  .flag:nth-child(5){ left:46%; border-top:26px solid var(--lav);   animation-delay:.25s}
+  .flag:nth-child(6){ left:56%; border-top:26px solid var(--pink);  animation-delay:.35s}
+  .flag:nth-child(7){ left:66%; border-top:26px solid var(--blue);  animation-delay:.2s}
+  .flag:nth-child(8){ left:76%; border-top:26px solid var(--mint);  animation-delay:.1s}
+  .flag:nth-child(9){ left:86%; border-top:26px solid var(--peach); animation-delay:.3s}
+  @keyframes sway{ 50%{ transform: rotate(3deg)} }
+
+  /* ========== Header / LIVE ========== */
+  .header{
+    display:flex; align-items:center; justify-content:space-between; gap:16px; margin:8px 0 14px;
+  }
+  .title{
+    font-weight:900; font-size:clamp(20px,3.2vw,32px); letter-spacing:.2px;
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .badge-live{
+    display:inline-flex; align-items:center; gap:.5rem;
+    background:linear-gradient(90deg, #FFDEE2, #FDE2E4);
+    color:#7C2D12; font-weight:800; padding:8px 12px; border-radius:999px;
+    box-shadow:0 4px 12px rgba(253,226,228,.6);
+  }
+  .dot{ width:8px; height:8px; border-radius:50%; background:#F97316; animation: blink 1.2s infinite }
+  @keyframes blink{ 50%{ opacity:.35 } }
+
+  /* ========== Ticker (gentle marquee) ========== */
+  .ticker{
+    border:1px solid #E5E7EB; background:linear-gradient(0deg,#FFFFFF, #FEFDFE);
+    border-radius:14px; box-shadow:var(--shadow); overflow:hidden;
+  }
+  .ticker-rail{ position:relative; padding:10px 0; white-space:nowrap; }
+  .marquee{ display:inline-flex; gap:28px; padding-inline:10px; animation: scroll 28s linear infinite }
+  @keyframes scroll{ to{ transform: translateX(-50%) } }
+  .tick{
+    padding:6px 14px; border-radius:999px; font-weight:600; color:#475569;
+    background:#F8FAFC; border:1px dashed #E5E7EB;
+  }
+
+  /* ========== Grid / Cards ========== */
+  .grid{ display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px }
+  @media (min-width:860px){ .grid{ grid-template-columns:1fr 1fr } }
+
+  .card{
+    background:var(--card); border:1px solid #E5E7EB; border-radius:18px; padding:16px;
+    box-shadow:var(--shadow); position:relative; overflow:hidden;
+  }
+  .card::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(400px 120px at 80% -40px, rgba(189,224,254,.35), transparent 70%);
+  }
+  .card .top{ display:flex; align-items:center; justify-content:space-between; gap:10px }
+  .team{
+    display:flex; align-items:center; gap:.7rem;
+  }
+  .pill{
+    font-size:.75rem; padding:.2rem .55rem; border:1px solid #E5E7EB; border-radius:999px; color:#475569;
+    background:#F8FAFC;
+  }
+  .name{ font-weight:900; letter-spacing:.2px }
+  .score{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:clamp(26px,4.6vw,40px); font-weight:900; letter-spacing:1px; color:#0F766E;
+  }
+
+  /* progress rail */
+  .rail{
+    height:14px; border-radius:999px; background:#F1F5F9; overflow:hidden; border:1px solid #E5E7EB; margin-top:10px;
+  }
+  .fill{
+    height:100%; width:var(--pct,50%); transition: width .7s ease;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.6), rgba(255,255,255,0)),
+      linear-gradient(90deg, var(--from), var(--to));
+    background-size: 100% 100%, 100% 100%;
+  }
+
+  .meta{ margin-top:8px; display:flex; align-items:center; justify-content:space-between; color:var(--muted); font-weight:600; font-size:.95rem }
+
+  /* lead emphasis */
+  .lead{ outline:3px solid rgba(253, 224, 71,.6); outline-offset:2px }
+  .lead .name{ color:#CA8A04 }
+  .lead .score{ color:#B45309 }
+
+  /* ========== Cheer Button (CSS only) ========== */
+  .cheer{ margin:20px 0 8px; display:flex; align-items:center; gap:10px; flex-wrap:wrap }
+  .toggle{ position:absolute; opacity:0; pointer-events:none }
+  .btn{
+    cursor:pointer; user-select:none; border:none; border-radius:12px;
+    padding:12px 16px; font-weight:900; letter-spacing:.3px;
+    background:linear-gradient(90deg,#DCFCE7,#CFFAFE); color:#065F46;
+    box-shadow:0 6px 16px rgba(6,95,70,.12), inset 0 -2px 0 rgba(0,0,0,.06);
+    transform:translateY(0); transition: transform .05s ease;
+  }
+  .btn:active{ transform: translateY(1px) }
+  .note{ color:var(--muted) }
+
+  /* Confetti (emoji rain) */
+  .confetti{ position:relative; height:0; pointer-events:none }
+  .confetti span{
+    position:absolute; top:-8px; left:0; opacity:0; transform: translateY(-20px) rotate(0deg);
+    font-size:22px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.1)); animation: drop 1.8s ease-in forwards;
+  }
+  .confetti span:nth-child(1){ left:12%; animation-delay:.05s}
+  .confetti span:nth-child(2){ left:20%; animation-delay:.1s}
+  .confetti span:nth-child(3){ left:28%; animation-delay:.18s}
+  .confetti span:nth-child(4){ left:36%; animation-delay:.12s}
+  .confetti span:nth-child(5){ left:44%; animation-delay:.2s}
+  .confetti span:nth-child(6){ left:52%; animation-delay:.08s}
+  .confetti span:nth-child(7){ left:60%; animation-delay:.16s}
+  .confetti span:nth-child(8){ left:68%; animation-delay:.1s}
+  .confetti span:nth-child(9){ left:76%; animation-delay:.22s}
+  .confetti span:nth-child(10){ left:84%; animation-delay:.14s}
+  @keyframes drop{
+    0%{ opacity:0; transform: translateY(-30px) rotate(0) }
+    15%{ opacity:1 }
+    100%{ opacity:0; transform: translateY(140px) rotate(360deg) }
+  }
+  .toggle:checked ~ .confetti{ height:120px }
+
+  /* ========== Toast (gentle ribbon) ========== */
+  .toast{
+    margin-top:8px; background:linear-gradient(90deg,#FFF7ED,#FFFBEB);
+    border:1px solid #FDE68A; color:#92400E; padding:10px 14px; border-radius:10px; font-weight:800;
+    box-shadow:0 6px 16px rgba(217,119,6,.08);
+  }
+
+  .muted{ color:var(--muted) }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Bunting -->
+    <div class="bunting" aria-hidden="true">
+      <i class="flag"></i><i class="flag"></i><i class="flag"></i><i class="flag"></i><i class="flag"></i>
+      <i class="flag"></i><i class="flag"></i><i class="flag"></i><i class="flag"></i>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="title">Baby Shower Live Results 👶</div>
+      <div class="badge-live"><span class="dot"></span> LIVE</div>
+    </div>
+
+    <!-- Ticker -->
+    <div class="ticker" role="status" aria-live="polite">
+      <div class="ticker-rail">
+        <div class="marquee">
+          <span class="tick">🍼 New votes just arrived!</span>
+          <span class="tick">🎈 Team Cloud is catching up!</span>
+          <span class="tick">🧸 Send a cheer to your team!</span>
+          <span class="tick">👶 Awww — adorable lead change!</span>
+
+          <!-- duplicate for seamless loop -->
+          <span class="tick">🍼 New votes just arrived!</span>
+          <span class="tick">🎈 Team Cloud is catching up!</span>
+          <span class="tick">🧸 Send a cheer to your team!</span>
+          <span class="tick">👶 Awww — adorable lead change!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scoreboard -->
+    <div class="grid">
+
+      <!-- Team A (Leading example) -->
+      <section class="card lead" aria-label="Team Cloud score">
+        <div class="top">
+          <div class="team">
+            <span class="pill">#CLOUD</span>
+            <div class="name">Team Cloud</div>
+          </div>
+          <div class="score">1248 <small class="muted">votes</small></div>
+        </div>
+        <div class="rail" aria-hidden="true">
+          <div class="fill" style="--pct:62%; --from:#BDE0FE; --to:#CDEAC0"></div>
+        </div>
+        <div class="meta">
+          <span>Momentum: <b style="color:#0F766E">Cheery</b></span>
+          <span>Share: <b style="color:#0F766E">62%</b></span>
+        </div>
+      </section>
+
+      <!-- Team B -->
+      <section class="card" aria-label="Team Sunshine score">
+        <div class="top">
+          <div class="team">
+            <span class="pill">#SUN</span>
+            <div class="name">Team Sunshine</div>
+          </div>
+          <div class="score" style="color:#2563EB">762 <small class="muted">votes</small></div>
+        </div>
+        <div class="rail" aria-hidden="true">
+          <div class="fill" style="--pct:38%; --from:#FFC8DD; --to:#FDE2E4"></div>
+        </div>
+        <div class="meta">
+          <span>Momentum: <b style="color:#2563EB">Rising</b></span>
+          <span>Share: <b style="color:#2563EB">38%</b></span>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Cheer -->
+    <div class="cheer">
+      <input id="cheer" type="checkbox" class="toggle" />
+      <label for="cheer" class="btn">CHEER! 🧸</label>
+      <span class="note">Tap to sprinkle some joy (toggle to replay)</span>
+
+      <div class="confetti" aria-hidden="true">
+        <span>🍼</span><span>🎈</span><span>🧸</span><span>👶</span><span>✨</span>
+        <span>🍼</span><span>🎈</span><span>🧸</span><span>👶</span><span>✨</span>
+      </div>
+    </div>
+
+    <!-- Toast (example) -->
+    <div class="toast">🎀 Team Cloud takes the lead — aww-some!</div>
+
+    <p class="muted" style="margin-top:10px">Numbers &amp; bars update live in your app; this is a visual mock.</p>
+  </div>
+</body>
+</html>

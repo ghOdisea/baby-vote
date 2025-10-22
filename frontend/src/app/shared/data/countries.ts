@@ -18,4 +18,5 @@ export const COUNTRIES: Country[] = [
     { code: 'IT', name: 'Italia' },
     { code: 'GB', name: 'Reino Unido' },
     { code: 'GE', name: 'Georgia' },
+    { code: 'CAT', name: 'Cataluña' },
 ];

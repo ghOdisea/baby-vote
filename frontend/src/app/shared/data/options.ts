@@ -1,16 +1,16 @@
 // src/app/shared/data/options.ts
-export type OptionId = number; // si preferís enum, también vale
+export type OptionId = string; // ahora usamos los mismos strings que el backend
 
 export const OPTIONS: { id: OptionId; label: string }[] = [
-  { id: 1, label: 'Baby boy' },
-  { id: 2, label: 'Baby girl' },
-  { id: 3, label: 'Baby decides' },
+  { id: 'Baby boy', label: 'Baby boy' },
+  { id: 'Baby girl', label: 'Baby girl' },
+  { id: 'Baby decides', label: 'Baby decides' },
 ];
 
 // 💡 Para cambiar las opciones, EDITÁ este array.
 // Ejemplo:
 // export const OPTIONS = [
-//   { id: 1, label: 'Niña' },
-//   { id: 2, label: 'Niño' },
-//   { id: 3, label: 'Sorpresa' },
+//   { id: 'Niña', label: 'Niña' },
+//   { id: 'Niño', label: 'Niño' },
+//   { id: 'Sorpresa', label: 'Sorpresa' },
 // ];
