@@ -2,14 +2,14 @@ export class Vote {
   id: string;
   name: string;
   countryCode: string; // ISO-2
-  option: number;      // 1..3
+  option: string;      // ahora string: 'Baby boy' | 'Baby girl' | 'Baby decides'
   createdAt: Date;
 
-  constructor(id: string, name: string, countryCode: string, option: number, createdAt: Date) {
+  constructor(id: string, name: string, countryCode: string, option: string, createdAt: Date) {
     this.id = id;
     this.name = name;
     this.countryCode = countryCode;
-    this.option = option;
+    this.option = option as any;
     this.createdAt = createdAt;
   }
 
@@ -18,7 +18,7 @@ export class Vote {
       row.id,
       row.name,
       row.country_code,
-      Number(row.option),
+      String(row.option),
       new Date(row.created_at)
     );
   }

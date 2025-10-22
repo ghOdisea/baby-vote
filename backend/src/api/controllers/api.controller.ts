@@ -32,7 +32,8 @@ export const PostVotesHandler = catchErrors(async (req, res) => {
     appAssert(false, BAD_REQUEST, "Invalid payload"); // conserva tu flujo de errores
   }
 
-  const payload = parsed.data; // { name, country_code, option }
+  // safeParse pasó, así que parsed.data tiene la forma validada.
+  const payload = parsed.data as { name: string; country_code: string; option: string };
 
   const newVote = await createVote({
     name: payload.name,

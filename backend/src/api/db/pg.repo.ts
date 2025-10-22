@@ -24,13 +24,13 @@ export class PgVoteRepo implements VoteRepository {
     return Vote.fromRow(rows[0]);
   }
 
-  async fetchStats(): Promise<Array<{ option: number; count: number }>> {
+  async fetchStats(): Promise<Array<{ option: string; count: number }>> {
     const { rows } = await pool.query(
-      `select option::int, count(*)::int as count
+      `select option::text as option, count(*)::int as count
          from votes
         group by votes.option
         order by votes.option asc`
     );
-    return rows.map(r => ({ option: Number(r.option), count: Number(r.count) }));
+    return rows.map(r => ({ option: String(r.option), count: Number(r.count) }));
   }
 }

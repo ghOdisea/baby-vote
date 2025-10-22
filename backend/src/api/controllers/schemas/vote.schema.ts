@@ -9,6 +9,10 @@ export const VoteSchema = z.object({
     .trim()
     .regex(/^[A-Za-z]{2}$/, "country_code must be ISO-2")
     .transform((s) => s.toUpperCase()),
-  // acepta "2" o 2, entero 1..3
-  option: z.coerce.number().int().min(1).max(3)
+  // acepta las etiquetas nuevas o números 1..3 (compatibilidad).
+  // Normaliza siempre a la etiqueta string.
+  option: z.union([
+    z.enum(["Baby boy", "Baby girl", "Baby decides"]),
+    z.coerce.number().int().min(1).max(3).transform(n => ({ 1: "Baby boy", 2: "Baby girl", 3: "Baby decides" }[n]))
+  ])
 });

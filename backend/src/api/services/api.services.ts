@@ -9,7 +9,7 @@ export async function getVotes(limit?: number): Promise<Vote[]> {
   return repo.fetchVotes(limit);
 }
 
-export async function createVote(input: { name: string; countryCode: string; option: number; }): Promise<Vote> {
+export async function createVote(input: { name: string; countryCode: string; option: string; }): Promise<Vote> {
   return repo.createVote({
     name: input.name,
     countryCode: input.countryCode,
@@ -17,6 +17,6 @@ export async function createVote(input: { name: string; countryCode: string; opt
   } as Omit<Vote, 'id'|'createdAt'>);
 }
 
-export async function getStats(): Promise<Array<{ option: number; count: number }>> {
+export async function getStats(): Promise<Array<{ option: string; count: number }>> {
   return repo.fetchStats();
 }

@@ -3,7 +3,7 @@ import { Vote } from "../../core/vote";
 export interface VoteRepository {
   fetchVotes(limit?: number): Promise<Vote[]>;
   createVote(vote: Omit<Vote, 'id'|'createdAt'>): Promise<Vote>;
-  fetchStats(): Promise<Array<{ option: number; count: number }>>;
+  fetchStats(): Promise<Array<{ option: string; count: number }>>;
 }
 
 export class InMemoryVoteRepository implements VoteRepository {
@@ -25,9 +25,9 @@ export class InMemoryVoteRepository implements VoteRepository {
     return newVote;
   }
 
-  async fetchStats(): Promise<Array<{ option: number; count: number }>> {
-    const map = new Map<number, number>();
-    for (const v of this.votes) map.set(v.option, (map.get(v.option) ?? 0) + 1);
-    return [...map.entries()].map(([option, count]) => ({ option, count })).sort((a,b)=>a.option-b.option);
+  async fetchStats(): Promise<Array<{ option: string; count: number }>> {
+    const map = new Map<string, number>();
+    for (const v of this.votes) map.set(String(v.option), (map.get(String(v.option)) ?? 0) + 1);
+    return [...map.entries()].map(([option, count]) => ({ option, count })).sort((a,b)=>a.option.localeCompare(b.option));
   }
 }
